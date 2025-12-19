@@ -14,10 +14,11 @@ warnings.filterwarnings("ignore")
 
 import dagshub
 
-dagshub.init(repo_owner="zickrian", repo_name="diabetes-mlflow", mlflow=True)
+dagshub.init(repo_owner='zickrian', repo_name='MSML', mlflow=True)
 
 # --- SETUP MLflow ---
-mlflow.set_tracking_uri("http://127.0.0.1:5000")  # Local MLflow server
+mlflow.set_tracking_uri("http://127.0.0.1:5000")  
+mlflow.set_tracking_uri("https://dagshub.com/zickrian/MSML.mlflow")
 mlflow.set_experiment("Diabetes_RF_Tuned_Models")
 
 # --- LOAD DATA ---
@@ -87,6 +88,9 @@ with mlflow.start_run(run_name="RandomForest_Tuning_GridSearch_Manual_Logging"):
 
 	# Ensure model folder is visible under Artifacts by saving & logging
 	model_local_dir = os.path.join("artifacts", "model")
+	import shutil
+	if os.path.exists(model_local_dir):
+		shutil.rmtree(model_local_dir)
 	os.makedirs(model_local_dir, exist_ok=True)
 	mlflow.sklearn.save_model(best_model, model_local_dir)
 	mlflow.log_artifacts(model_local_dir, artifact_path="model")
