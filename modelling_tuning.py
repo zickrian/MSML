@@ -12,6 +12,10 @@ import os
 import warnings
 warnings.filterwarnings("ignore")
 
+import dagshub
+
+dagshub.init(repo_owner="zickrian", repo_name="diabetes-mlflow", mlflow=True)
+
 # --- SETUP MLflow ---
 mlflow.set_tracking_uri("http://127.0.0.1:5000")  # Local MLflow server
 mlflow.set_experiment("Diabetes_RF_Tuned_Models")
